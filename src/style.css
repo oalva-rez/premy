@@ -1,0 +1,39 @@
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+body {
+  height: 100vh;
+  display: grid;
+  grid-template: 60px 1fr 60px / 1fr;
+  place-items: center;
+}
+
+/* player table */
+.table__content > *,
+.table__top {
+  display: grid;
+  grid-template: 1fr / 200px 1fr 1fr 1fr 1fr 1fr;
+}
+.table__top {
+  text-align: center;
+  border-bottom: 1px solid #000;
+}
+
+.table__cell {
+  text-align: center;
+}
+.table__row > .table__cell {
+  padding: 20px;
+}
+
+.green {
+  background-color: lightgreen;
+}
