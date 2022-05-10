@@ -9,7 +9,8 @@ const options = {
 };
 async function getUserGuess() {
   try {
-    let searchInput = document.getElementById("search-field").value;
+    let searchInput = $("#search-field").val();
+
     searchInput = encodeURI(searchInput);
 
     let res = await fetch(
@@ -24,7 +25,9 @@ async function getUserGuess() {
       data.player.nationality,
       data.statistics[0].games.position,
       data.player.height,
-      data.player.age
+      data.player.age,
+      data.player.photo,
+      data.statistics[0].team.logo
     );
     return userGuess;
   } catch (err) {
