@@ -9,10 +9,10 @@
       crossorigin="anonymous"
     ></script>
     <title>Premy</title>
-    <script defer src="main.a1a9c3dc32a02c889af1.js"></script>
+    <script defer src="main.affddc77cef214222bf4.js"></script>
   </head>
-  <div id="sticky" style="display: none"></div>
   <body>
+    <div id="sticky" style="display: none"></div>
     <header><h1>Premy</h1></header>
     <main>
       <h2>Premiere League Guessing Game</h2>
@@ -20,7 +20,16 @@
         You have <span class="attempts">7</span> attempts left to guess the
         random player.
       </h3>
-      <input type="text" id="search-field" placeholder="Player Name" />
+      <input
+        type="text"
+        id="search-field"
+        placeholder="Player Name"
+        list="players"
+      />
+      <datalist id="players">
+        <option value="M. Rashford">M. Rashford</option>
+      </datalist>
+
       <div class="err"></div>
       <div class="table">
         <div class="table__top">
