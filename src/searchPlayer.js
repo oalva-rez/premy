@@ -1,17 +1,14 @@
-import { Player } from "./index.js";
+import { Player, options } from "./index.js";
 
-const options = {
-  method: "GET",
-  headers: {
-    "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com",
-    "X-RapidAPI-Key": "bb2bcd95f3mshea301c28c7ab66ap16ff4fjsneee023426a50",
-  },
-};
 async function getUserGuess() {
   try {
     let searchInput = $("#search-field").val();
-
+    searchInput = searchInput
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
     searchInput = encodeURI(searchInput);
+    console.log(searchInput);
 
     let res = await fetch(
       `https://api-football-v1.p.rapidapi.com/v3/players?league=39&search=${searchInput}`,

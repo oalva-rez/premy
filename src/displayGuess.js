@@ -7,6 +7,7 @@ function displayGuess(rndPlayer, userGuess) {
   let team = $("<img>", {
     src: userGuess.teamImgSrc,
     width: "47px",
+    alt: `${userGuess.team} badge logo`,
   });
   let teamContainer = $("<div>", { class: "table__cell" }).append(team);
   let nationality = $("<div>")
@@ -49,7 +50,7 @@ function displayGuess(rndPlayer, userGuess) {
   }
 
   tableRow.append(name, teamContainer, nationality, position, height, age);
-  tableContainer.append(tableRow);
+  tableContainer.append(tableRow.hide().fadeIn(1200));
 }
 
 export { displayGuess };

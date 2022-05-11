@@ -2,6 +2,9 @@ import "./style.css";
 import { displayGuess } from "./displayGuess";
 import { gameOver } from "./gameOver";
 import { getUserGuess } from "./searchPlayer.js";
+import * as players from "./players.csv";
+import { autoComplete } from "./autoComplete";
+
 class Player {
   constructor(
     name,
@@ -34,16 +37,16 @@ class Player {
     return feet + "'" + inches + '"';
   }
 }
+const options = {
+  method: "GET",
+  headers: {
+    "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com",
+    "X-RapidAPI-Key": "bb2bcd95f3mshea301c28c7ab66ap16ff4fjsneee023426a50",
+  },
+};
 let rndPlayer, userGuess;
 async function getRndPlayer() {
   let round = 7;
-  const options = {
-    method: "GET",
-    headers: {
-      "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com",
-      "X-RapidAPI-Key": "bb2bcd95f3mshea301c28c7ab66ap16ff4fjsneee023426a50",
-    },
-  };
 
   // random number generator
   function randomIntFromInterval(min, max) {
@@ -76,67 +79,75 @@ async function getRndPlayer() {
     );
     console.log(rndPlayer);
 
+    // FOR DEVELOPMENT ONLY
     // rndPlayer = new Player(
     //   "M. Rashford",
     //   "chelsea",
     //   "mexico",
-    //   "attacker",
+    //   "Attacker",
     //   "127 cm",
     //   "24",
     //   "https://media.api-sports.io/football/players/3247.png",
     //   "https://media.api-sports.io/football/teams/52.png"
     // );
-    // //temporary
+
     // userGuess = new Player(
-    //   "M. Rashfords",
-    //   "chelsea",
-    //   "mexico",
-    //   "midfield",
-    //   "120 cm",
+    //   "W. Zaha",
+    //   "Crystal Palace",
+    //   "Cote de. Ivory",
+    //   "Attacker",
+    //   "180 cm",
     //   "30",
     //   "https://media.api-sports.io/football/players/3247.png",
     //   "https://media.api-sports.io/football/teams/52.png"
     // );
 
-    let input = document.getElementById("search-field");
-    input.addEventListener("keypress", async function (event) {
-      if (event.key === "Enter") {
-        $(".err").text("");
-        userGuess = await getUserGuess();
+    // on click of submit button get user guess and validate
+    $("#submit-guess").click(async function (event) {
+      $(".err").text("");
+      // get user guess object from search query
+      userGuess = await getUserGuess();
 
-        if (userGuess !== undefined && round > 1) {
-          round--;
-          $(".attempts").text("");
-          $("#search-field").val("");
-          $(".attempts").text(round);
-          displayGuess(rndPlayer, userGuess);
-          if (rndPlayer.name == userGuess.name) {
-            gameOver(true);
-          }
-        } else if (userGuess == undefined) {
-          $(".err").text("No player found.");
-          $("#search-field").val("");
-        } else if (round == 1) {
-          round--;
-          $("#search-field").val("");
-          $(".attempts").text("");
-          $(".attempts").text(round);
-          if (rndPlayer.name !== userGuess.name) {
-            gameOver(false);
-          }
-          if (rndPlayer.name == userGuess.name) {
-            gameOver(true);
-          }
+      if (userGuess !== undefined && round > 1) {
+        round--;
+        $(".attempts").text("");
+        $("#search-field").val("");
+        $(".attempts").text(round);
+        displayGuess(rndPlayer, userGuess);
+        if (rndPlayer.name == userGuess.name) {
+          gameOver(true);
         }
-
-        event.preventDefault();
+      } else if (userGuess == undefined) {
+        $(".err").text("No player found.");
+        $("#search-field").val("");
+      } else if (round == 1) {
+        round--;
+        $("#search-field").val("");
+        $(".attempts").text("");
+        $(".attempts").text(round);
+        if (rndPlayer.name !== userGuess.name) {
+          gameOver(false);
+        }
+        if (rndPlayer.name == userGuess.name) {
+          gameOver(true);
+        }
       }
+
+      event.preventDefault();
     });
   } catch (err) {
     console.log(err);
   }
+
+  // create array of players from players.csv for autocomplete
+  let playerArray = [];
+  players.forEach((player) => {
+    playerArray.push(player.Name);
+  });
+  // initialize autocomplete
+  autoComplete(document.getElementById("search-field"), playerArray);
 }
 
 getRndPlayer();
 
-export { getRndPlayer, Player, rndPlayer, userGuess };
+export { getRndPlayer, Player, rndPlayer, userGuess, options };

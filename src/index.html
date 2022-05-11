@@ -10,8 +10,8 @@
     ></script>
     <title>Premy</title>
   </head>
-  <div id="sticky" style="display: none"></div>
   <body>
+    <div id="sticky" style="display: none"></div>
     <header><h1>Premy</h1></header>
     <main>
       <h2>Premiere League Guessing Game</h2>
@@ -19,7 +19,18 @@
         You have <span class="attempts">7</span> attempts left to guess the
         random player.
       </h3>
-      <input type="text" id="search-field" placeholder="Player Name" />
+      <div class="submission">
+        <div class="autocomplete">
+          <input
+            type="text"
+            id="search-field"
+            placeholder="Player Name"
+            list="players"
+            autocomplete="off"
+          />
+        </div>
+        <button id="submit-guess">Submit</button>
+      </div>
       <div class="err"></div>
       <div class="table">
         <div class="table__top">
