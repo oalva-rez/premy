@@ -3,12 +3,12 @@ import { Player, options } from "./index.js";
 async function getUserGuess() {
   try {
     let searchInput = $("#search-field").val();
+    // normalized to remove accents/diacritics
     searchInput = searchInput
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .toLowerCase();
     searchInput = encodeURI(searchInput);
-    console.log(searchInput);
 
     let res = await fetch(
       `https://api-football-v1.p.rapidapi.com/v3/players?league=39&search=${searchInput}`,
@@ -16,6 +16,7 @@ async function getUserGuess() {
     );
     let data = await res.json();
     data = data.response[0];
+    // create user guess object
     let userGuess = new Player(
       data.player.name,
       data.statistics[0].team.name,

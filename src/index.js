@@ -44,8 +44,9 @@ const options = {
     "X-RapidAPI-Key": "bb2bcd95f3mshea301c28c7ab66ap16ff4fjsneee023426a50",
   },
 };
+
 let rndPlayer, userGuess;
-async function getRndPlayer() {
+(async function initGame() {
   let round = 7;
 
   // random number generator
@@ -55,18 +56,19 @@ async function getRndPlayer() {
   }
 
   try {
-    // fetch random player from top scorers pool -- idea is to retrieve random well known player
     const res = await fetch(
       "https://api-football-v1.p.rapidapi.com/v3/players/topscorers?league=39&season=2021",
       options
     );
-    let data = await res.json();
-    console.log(data);
 
+    let data = await res.json();
     let arrLength = await data.response.length;
     const rndInt = randomIntFromInterval(0, arrLength - 1);
 
+    // fetch random player from top scorers pool -- idea is to retrieve random well known player
     data = await data.response[rndInt];
+
+    // create object of random player
     rndPlayer = new Player(
       data.player.name,
       data.statistics[0].team.name,
@@ -90,7 +92,6 @@ async function getRndPlayer() {
     //   "https://media.api-sports.io/football/players/3247.png",
     //   "https://media.api-sports.io/football/teams/52.png"
     // );
-
     // userGuess = new Player(
     //   "W. Zaha",
     //   "Crystal Palace",
@@ -104,19 +105,26 @@ async function getRndPlayer() {
 
     // on click of submit button get user guess and validate
     $("#submit-guess").click(async function (event) {
+      // clear error
       $(".err").text("");
+
       // get user guess object from search query
       userGuess = await getUserGuess();
 
+      // if player query found and is not last round
       if (userGuess !== undefined && round > 1) {
         round--;
         $(".attempts").text("");
         $("#search-field").val("");
         $(".attempts").text(round);
         displayGuess(rndPlayer, userGuess);
+
+        // user guesses correctly
         if (rndPlayer.name == userGuess.name) {
           gameOver(true);
         }
+
+        // if player not found in search display error
       } else if (userGuess == undefined) {
         $(".err").text("No player found.");
         $("#search-field").val("");
@@ -139,15 +147,13 @@ async function getRndPlayer() {
     console.log(err);
   }
 
-  // create array of players from players.csv for autocomplete
+  // create array of players from players.csv for auto complete
   let playerArray = [];
   players.forEach((player) => {
     playerArray.push(player.Name);
   });
   // initialize autocomplete
   autoComplete(document.getElementById("search-field"), playerArray);
-}
+})();
 
-getRndPlayer();
-
-export { getRndPlayer, Player, rndPlayer, userGuess, options };
+export { Player, rndPlayer, userGuess, options };

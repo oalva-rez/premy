@@ -1,6 +1,12 @@
 import { gameOver } from "./gameOver.js";
 
+/**
+ * Compare user guess to random player.
+ * @param {Object} rndPlayer - The Player instance of the player chosen at random on game initialization.
+ * @param {Object} userGuess - The Player instance of the user guess.
+ */
 function displayGuess(rndPlayer, userGuess) {
+  // create DOM element for user guess
   let tableContainer = $(".table__content");
   let tableRow = $("<div>").addClass("table__row");
   let name = $("<div>").append(userGuess.name).addClass("table__cell");
@@ -17,12 +23,15 @@ function displayGuess(rndPlayer, userGuess) {
   let height = $("<div>").append(userGuess.getFeet()).addClass("table__cell");
   let age = $("<div>").append(userGuess.age).addClass("table__cell");
 
+  // check team
   if (rndPlayer.team == userGuess.team) {
     teamContainer.addClass("green");
   }
+  // check nationality
   if (rndPlayer.nationality == userGuess.nationality) {
     nationality.addClass("green");
   }
+  //check position
   if (rndPlayer.position == userGuess.position) {
     position.addClass("green");
   }
