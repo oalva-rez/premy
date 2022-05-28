@@ -1,4 +1,5 @@
 import { rndPlayer, userGuess } from "./index";
+import $ from "jquery";
 
 function gameOver(isWin) {
   if (isWin) {

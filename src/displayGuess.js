@@ -1,4 +1,5 @@
 import { gameOver } from "./gameOver.js";
+import $ from "jquery";
 
 /**
  * Compare user guess to random player.

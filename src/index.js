@@ -4,6 +4,7 @@ import { gameOver } from "./gameOver";
 import { getUserGuess } from "./searchPlayer.js";
 import * as players from "./players.csv";
 import { autoComplete } from "./autoComplete";
+import $ from "jquery";
 
 class Player {
   constructor(

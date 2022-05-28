@@ -1,4 +1,5 @@
 import { Player, options } from "./index.js";
+import $ from "jquery";
 
 async function getUserGuess() {
   try {
